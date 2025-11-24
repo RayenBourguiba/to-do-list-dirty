@@ -10,6 +10,31 @@ class TestTaskViews(TestCase):
             complete=False,
         )
 
+    def test_home_page_post_creates_task(self):
+        url = reverse("list")
+        payload = {
+            "title": "Created via POST"
+        }
+
+        response = self.client.post(url, data=payload)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], "/")
+
+        self.assertTrue(Task.objects.filter(title="Created via POST").exists())
+
+    def test_home_page_post_invalid_does_not_create_task(self):
+        url = reverse("list")
+        initial_count = Task.objects.count()
+
+        payload = { "title": "" }
+
+        response = self.client.post(url, data=payload)
+
+        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(Task.objects.count(), initial_count)
+
     def test_home_page_get(self):
         url = reverse("list")
         response = self.client.get(url)
@@ -43,6 +68,24 @@ class TestTaskViews(TestCase):
         self.task.refresh_from_db()
         self.assertEqual(self.task.title, "Updated title")
         self.assertTrue(self.task.complete)
+
+    def test_update_task_post_invalid(self):
+        url = reverse("update_task", args=[self.task.id])
+        old_title = self.task.title
+
+        payload = {
+            "title": "", 
+            "complete": False,
+        }
+
+        response = self.client.post(url, data=payload)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/update_task.html")
+
+        self.task.refresh_from_db()
+        self.assertEqual(self.task.title, old_title)
+
 
     def test_delete_task_get(self):
         url = reverse("delete", args=[self.task.id])
