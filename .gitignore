@@ -5,3 +5,7 @@ db.sqlite3
 
 # Scripts
 build.sh
+*.sh
+
+# Build Artifacts
+todolist-*.zip

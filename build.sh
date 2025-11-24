@@ -13,7 +13,7 @@ if [ -z "$VERSION" ]; then
   exit 1
 fi
 
-echo "🔧 Build pour la version $VERSION"
+echo "Build pour la version $VERSION"
 
 SETTINGS_FILE="todo/settings.py"
 
