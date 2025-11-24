@@ -1,6 +1,9 @@
+import json
 from django.test import TestCase
 from django.urls import reverse
 from tasks.models import Task
+from pathlib import Path
+from tasks.utils import import_tasks_from_dataset
 
 
 class TestTaskViews(TestCase):
@@ -103,3 +106,21 @@ class TestTaskViews(TestCase):
         self.assertEqual(response["Location"], "/")
 
         self.assertFalse(Task.objects.filter(id=self.task.id).exists())
+
+class TestDatasetImport(TestCase):
+    def test_import_tasks_from_dataset_populates_db(self):
+        self.assertEqual(Task.objects.count(), 0)
+
+        import_tasks_from_dataset()
+
+        dataset_path = Path(__file__).resolve().parent / "dataset.json"
+        with dataset_path.open(encoding="utf-8") as f:
+            data = json.load(f)
+
+        expected_titles = {item["title"] for item in data}
+        titles_in_db = set(Task.objects.values_list("title", flat=True))
+
+        self.assertTrue(
+            expected_titles.issubset(titles_in_db),
+            msg=f"Les titres attendus {expected_titles} ne sont pas tous en base {titles_in_db}",
+        )

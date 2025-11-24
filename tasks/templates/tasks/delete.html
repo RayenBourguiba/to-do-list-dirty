@@ -1,6 +1,102 @@
-<p>Are you sure you want to delete "{{ item }}"?</p>
-<a href="{% url 'list' %}">Cancel</a>
-<form method="POST" action=""> 
-	{% csrf_token %}
-	<input type="submit" name="confirm">
-</form>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Confirmez la suppression d'une tâche dans votre To-Do List.">
+    <title>Supprimer une tâche</title>
+
+    <link rel="preload" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" as="style" onload="this.rel='stylesheet'">
+    <noscript>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    </noscript>
+
+    <style>
+        body{
+            background-color: #3a86ff;
+            color: #000000;
+            font-family: Arial, sans-serif;
+        }
+        input{
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        input::placeholder {
+            color: #333333;
+        }
+        .submit{
+            background-color: #0056b3;
+            color: #ffffff;
+        }
+        .center-column{
+            width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 3px;
+            box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.75);
+            text-align: center;
+        }
+        .item-row{
+            background-color: #8338ec;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 3px;
+            color: #ffffff;
+            font-size: 16px;
+            box-shadow: 0px -1px 10px -4px rgba(0,0,0,0.75);
+        }
+        .btn-info{
+            color: #ffffff;
+            background-color: #003366;
+            border-color: #003366;
+        }
+        .btn-danger{
+            background-color: #e59400;
+            color: #000000;
+            border-color: #e59400;
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            font-size: 125px;
+            text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+        }
+        label.sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1><b>SUPPRIMER</b></h1>
+
+    <div class="center-column">
+        <p style="font-size: 18px; margin-bottom: 20px;">
+            Êtes-vous sûr de vouloir supprimer la tâche :
+            <strong>"{{ item }}"</strong> ?
+        </p>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                Oui, supprimer la tâche
+            </button>
+        </form>
+
+        <div style="margin-top: 10px;">
+            <a class="btn btn-info" href="{% url 'list' %}">
+                Annuler et revenir à la liste
+            </a>
+        </div>
+    </div>
+</body>
+</html>
