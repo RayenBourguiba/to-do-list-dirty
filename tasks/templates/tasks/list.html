@@ -1,76 +1,123 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Gérez vos tâches facilement avec cette application To-Do List simple et pratique."
+    />
+    <title>To-Do List</title>
+    <link
+      rel="preload"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      as="style"
+      onload="this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      />
+    </noscript>
 
-<style>
+    <style>
+      body {
+        background-color: #3a86ff;
+        color: #000000;
+        font-family: Arial, sans-serif;
+      }
+      input {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      }
+      input::placeholder {
+        color: #333333;
+      }
+      .submit {
+        background-color: #0056b3; /* bouton plus foncé pour contraste suffisant */
+        color: #ffffff;
+      }
+      .center-column {
+        width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 3px;
+        box-shadow: 6px 2px 30px 0px rgba(0, 0, 0, 0.75);
+      }
+      .item-row {
+        background-color: #8338ec;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 3px;
+        color: #ffffff;
+        font-size: 16px;
+        box-shadow: 0px -1px 10px -4px rgba(0, 0, 0, 0.75);
+      }
+      .btn-info {
+        color: #ffffff;
+        background-color: #003366; /* bleu foncé pour contraste WCAG A */
+        border-color: #003366;
+      }
+      .btn-danger {
+        background-color: #e59400;
+        color: #000000;
+        border-color: #e59400;
+      }
+      h1 {
+        text-align: center;
+        color: #ffffff;
+        font-size: 125px;
+        text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+      }
+      label.sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+      .task-complete {
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><b>TO DO LIST</b></h1>
 
-	body{
-		background-color: #3a86ff;
-	}
+    <div class="center-column">
+      <form method="POST" action="/">
+        {% csrf_token %}
+        <label for="id_title" class="sr-only">Titre de la tâche</label>
+        {{ form.title }}
+        <input class="btn btn-info" type="submit" value="Créer la tâche" />
+      </form>
 
-	input{
-		width: 100%;
-		padding: 12px 20px;
-		margin: 8px 0;
-		box-sizing: border-box;
-	}
+      <div class="todo-list">
+        {% for task in tasks %}
+        <div class="item-row">
+          <a class="btn btn-sm btn-info" href="{% url 'update_task' task.id %}"
+            >Modifier</a
+          >
+          <a class="btn btn-sm btn-danger" href="{% url 'delete' task.id %}"
+            >Supprimer</a
+          >
+          {% if task.complete %}
+          <span class="task-complete">{{ task }}</span>
+          {% else %}
+          <span>{{ task }}</span>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
 
-	input::placeholder {
-	  color: #d3d3d3;
-	}
-
-	.submit{
-		background-color: #6BA3E8;
-	}
-
-	.center-column{
-		width:600px;
-		margin: 20px auto;
-		padding:20px;
-		background-color: #fff;
-		border-radius: 3px;
-		box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.75);
-	}
-
-	.item-row{
-		background-color: #8338ec;
-		margin: 10px;
-		padding: 20px;
-		border-radius: 3px;
-		color: #fff;
-		font-size: 16px;
-		box-shadow: 0px -1px 10px -4px rgba(0,0,0,0.75);
-	}
-
-	.btn-danger{
-		background-color: #ffbe0b;
-		border-color: #e59400;
-	}
-
-</style>
-<h1 style="text-align: center; color: #fb5607; font-size: 125px;        text-shadow: -10px 0 black, 0 10px black, 10px 0 black, 0 -10px black;
-
-"><b>TO DO LIST</b></h1>
-<div  class="center-column">
-	<form method="POST" action="/">
-		{% csrf_token %}
-		{{form.title}}
-		<input class="btn btn-info" type="submit" name="Create Task">
-	</form>
-
-	<div class="todo-list">
-	{% for task in tasks %}
-		<div class="item-row">
-			<a class="btn btn-sm btn-info" href = "{% url 'update_task' task.id %}">Update</a>
-			<a class="btn btn-sm btn-danger" href = "{% url 'delete' task.id %}">Delete</a>
-			{% if task.complete == True %}
-			<strike>{{task}}</strike>
-			{% else %}
-			<span>{{task}}</span>
-			{% endif %}
-
-		</div>
-	{% endfor %}
-	</div>
-</div>
-<footer style="margin-top: 20px; font-size: 0.9em; opacity: 0.7;">
-    Version : {{ app_version }}
-</footer>
+      <p style="text-align: center">Version: {{ app_version }}</p>
+    </div>
+  </body>
+</html>

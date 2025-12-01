@@ -15,15 +15,15 @@ fi
 
 echo "Build pour la version $VERSION"
 
+pipenv run ruff check .
+
 SETTINGS_FILE="todo/settings.py"
 
 sed -i "s/^APP_VERSION = \".*\"/APP_VERSION = \"$VERSION\"/" "$SETTINGS_FILE"
 
 git add "$SETTINGS_FILE"
 git commit -m "chore(release): $VERSION"
-
 git tag "$VERSION"
-
 git archive --format=zip "$VERSION" -o "todolist-$VERSION.zip"
 
 echo "Build terminé : todolist-$VERSION.zip"

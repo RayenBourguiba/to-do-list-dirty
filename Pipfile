@@ -4,9 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
+django = "==4.2"
 
 [dev-packages]
+ruff = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.13"

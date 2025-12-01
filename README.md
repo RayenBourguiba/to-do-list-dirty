@@ -26,3 +26,11 @@ Exemples :
 - `chore(release): 1.1.0`
 
 Les versions sont taguées dans Git (`git tag 1.1.0`), et une archive ZIP est générée via le script `build.sh` ou `build.ps1`.
+
+## Matrice de tests (Python / Django)
+Les tests automatiques peuvent être lancés sur plusieurs versions de Python et de Django
+grâce au script `test_matrix.sh`.
+
+Ce script utilise `pipenv` pour créer des environnements isolés pour chaque
+combinaison (Python 3.13 / 3.9 avec Django 5 / 4.2 / 3.2), installe les dépendances
+et exécute `python manage.py test tasks` pour chaque cas.
