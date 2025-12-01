@@ -76,7 +76,10 @@ class TestTaskViews(TestCase):
         url = reverse("update_task", args=[self.task.id])
         old_title = self.task.title
 
-        payload = {"title": "", "complete": False}
+        payload = {
+            "title": "",
+            "complete": False,
+        }
 
         response = self.client.post(url, data=payload)
 
