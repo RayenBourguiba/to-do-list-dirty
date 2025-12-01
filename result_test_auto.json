@@ -1,0 +1,48 @@
+{
+    "total_tests": 0,
+    "failures": 0,
+    "errors": [],
+    "success": 0,
+    "tests": [
+        {
+            "test_case_id": "TC001",
+            "status": "passed"
+        },
+        {
+            "test_case_id": "TC002",
+            "status": "passed"
+        },
+        {
+            "test_case_id": "TC003",
+            "status": "passed"
+        },
+        {
+            "test_case_id": "TC004",
+            "status": "passed"
+        },
+        {
+            "test_case_id": "TC005",
+            "status": "passed"
+        },
+        {
+            "test_case_id": "TC006",
+            "status": "passed"
+        },
+        {
+            "test_case_id": "TC007",
+            "status": "passed"
+        },
+        {
+            "test_case_id": "TC008",
+            "status": "passed"
+        },
+        {
+            "test_case_id": "TC009",
+            "status": "passed"
+        },
+        {
+            "test_case_id": "TC010",
+            "status": "passed"
+        }
+    ]
+}
