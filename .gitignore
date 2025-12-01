@@ -27,3 +27,4 @@ htmlcov/
 # node modules
 node_modules/
 
+result_test_auto.json

@@ -1,0 +1,75 @@
+tests:
+  - id: TC001
+    title: Affichage de la page d'accueil
+    description: Vérifier que la page d'accueil renvoie un HTTP 200 et utilise le template tasks/list.html.
+    type: auto-unittest
+
+  - id: TC002
+    title: Affichage de la version de l'application
+    description: Vérifier que la version définie dans settings.APP_VERSION apparaît dans la page d'accueil.
+    type: auto-unittest
+
+  - id: TC003
+    title: Création d'une tâche via POST
+    description: Vérifier qu'une nouvelle tâche est créée via le formulaire de création.
+    type: auto-unittest
+
+  - id: TC004
+    title: Accès à la page de mise à jour (GET)
+    description: Vérifier que la page update_task/<id>/ renvoie un HTTP 200 pour une tâche existante.
+    type: auto-unittest
+
+  - id: TC005
+    title: Mise à jour d'une tâche (POST)
+    description: Vérifier que les modifications d'une tâche sont bien enregistrées.
+    type: auto-unittest
+
+  - id: TC006
+    title: Accès à la page de suppression (GET)
+    description: Vérifier que la page delete/<id>/ s'affiche correctement pour une tâche existante.
+    type: auto-unittest
+
+  - id: TC007
+    title: Suppression d'une tâche (POST)
+    description: Vérifier qu'une tâche est supprimée correctement après validation.
+    type: auto-unittest
+
+  - id: TC008
+    title: Affichage des tâches complètes
+    description: Vérifier qu'une tâche complete=True est rendue avec une classe CSS indiquant un texte barré.
+    type: auto-unittest
+
+  - id: TC009
+    title: Import des données depuis dataset.json
+    description: Vérifier que toutes les tâches du dataset sont importées correctement.
+    type: auto-unittest
+
+  - id: TC010
+    title: Tâche vide refusée
+    description: Vérifier qu'une tâche avec un titre vide n'est pas créée.
+    type: auto-unittest
+
+  - id: TC011
+    title: Affichage responsive (mobile)
+    description: Vérifier l'affichage correct de la page d'accueil sur écran mobile.
+    type: manual
+
+  - id: TC012
+    title: Contraste et lisibilité
+    description: Vérifier que les textes et boutons sont suffisamment contrastés et lisibles.
+    type: manual
+
+  - id: TC013
+    title: Navigation au clavier
+    description: Vérifier que toutes les interactions sont accessibles uniquement via le clavier.
+    type: manual
+
+  - id: TC014
+    title: Message de confirmation de suppression
+    description: Vérifier que la page de suppression contient un message clair et compréhensible.
+    type: manual
+
+  - id: TC015
+    title: Cohérence du wording
+    description: Vérifier que tous les textes affichés dans l'application sont cohérents et compréhensibles.
+    type: manual

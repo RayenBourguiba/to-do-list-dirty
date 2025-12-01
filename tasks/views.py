@@ -1,49 +1,66 @@
-from django.shortcuts import render, redirect
-from .models import Task
-from .forms import TaskForm
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 
-# Create your views here.
+from .models import Task
+from .forms import TaskForm
+
+
 def index(request):
-    tasks = Task.objects.all()
+    """
+    Page d'accueil :
+    - GET  -> 200 + render("tasks/list.html", ...)
+    - POST -> tente de créer une tâche puis redirige toujours vers "list"
+    """
+    tasks = Task.objects.all().order_by("id")
 
-    form = TaskForm()
-
-    if request.method == 'POST':
+    if request.method == "POST":
         form = TaskForm(request.POST)
         if form.is_valid():
-            # adds to the database if valid
             form.save()
-        return redirect('/')
+        # Toujours rediriger après un POST (même si le form est invalide)
+        return redirect("list")
 
+    # GET
+    form = TaskForm()
     context = {
-        'tasks': tasks,
-        'form': form,
-        "app_version": settings.APP_VERSION
+        "tasks": tasks,
+        "form": form,
+        "app_version": getattr(settings, "APP_VERSION", "1.2.0"),
     }
-    return render(request, 'tasks/list.html', context)
+    return render(request, "tasks/list.html", context)
 
 
 def updateTask(request, pk):
-    task = Task.objects.get(id=pk)
-    form = TaskForm(instance=task)
+    """
+    - GET  : 200 + template "tasks/update_task.html"
+    - POST valide   : 302 vers "list"
+    - POST invalide : 200 + même template réaffiché
+    """
+    task = get_object_or_404(Task, id=pk)
 
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect("list")
+        # form invalide => on retombe sur le render plus bas
+    else:
+        form = TaskForm(instance=task)
 
-    context = {'form': form}
-    return render(request, 'tasks/update_task.html', context)
+    context = {"form": form}
+    return render(request, "tasks/update_task.html", context)
 
 
 def deleteTask(request, pk):
-    item = Task.objects.get(id=pk)
+    """
+    - GET  : 200 + template "tasks/delete.html" (context: item)
+    - POST : supprime + 302 vers "list"
+    """
+    task = get_object_or_404(Task, id=pk)
 
     if request.method == "POST":
-        item.delete()
-        return redirect('/')
+        task.delete()
+        return redirect("list")
 
-    context = {'item': item}
-    return render(request, 'tasks/delete.html', context)
+    context = {"item": task}
+    return render(request, "tasks/delete.html", context)
