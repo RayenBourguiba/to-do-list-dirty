@@ -172,7 +172,7 @@ class TestTaskViews(TestCase):
 
     def test_home_page_post_creates_incomplete_task_by_default(self):
         """
-        Une tâche créée via POST sans cocher 'complete' doit être incomplete (False) par défaut.
+        Une tâche créée sans cocher 'complete' doit être (False) par défaut.
         """
         url = reverse("list")
         payload = {"title": "Task without checkbox"}

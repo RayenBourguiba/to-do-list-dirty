@@ -12,7 +12,7 @@ TEST_LIST_PATH = BASE_DIR / "test_list.yaml"
 
 
 def load_auto_test_ids():
-    """Retourne la liste des IDs de tests auto (TC001, TC002, …) depuis test_list.yaml."""
+    """Retourne la liste des IDs de tests auto depuis test_list.yaml."""
     import yaml
 
     if not TEST_LIST_PATH.exists():
